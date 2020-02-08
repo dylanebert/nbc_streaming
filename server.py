@@ -14,7 +14,7 @@ def get_frame(data):
 
 def get_response(buffer):
     df = pd.concat(buffer)
-    df = df[df['dynamic'] == True]
+    df = df[(df['dynamic'] == True) & ~(df['name'].isin(['LeftHand', 'RightHand', 'Head']))]
     df['speedY'] = df.apply(lambda row: np.abs(row['velY']), axis=1)
     motion = df.groupby('name').mean()['speedY']
     obj = motion.idxmax()
